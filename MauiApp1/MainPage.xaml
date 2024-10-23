@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MauiApp1.MainPage"
+             Title="Home">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20">
+
+            <!-- Headline -->
+            <Label Text="Managing Numeric Arrays"
+                   FontSize="Large"
+                   HorizontalOptions="Center"
+                   Margin="0,20,0,20" />
+
+            <!-- Array Input Form -->
+            <Label Text="Enter numbers separated by spaces:"
+                   FontSize="Medium" />
+            <Entry x:Name="InputArrayEntry"
+                   Placeholder="For example: 3 1 4 1 5"
+                   Keyboard="Telephone"
+                   HorizontalOptions="FillAndExpand"
+                   Margin="0,0,0,20"/>
+
+            <!-- Action buttons -->
+            <HorizontalStackLayout HorizontalOptions="Center" Spacing="10">
+                <Button Text="Save" Clicked="OnSaveArrayClicked" />
+                <Button Text="Load" Clicked="OnLoadArrayClicked" />
+                <Button Text="Sort" Clicked="OnSortArrayClicked" />
+            </HorizontalStackLayout>
+
+            <!-- Array visualization (before and after sorting) -->
+            <Label Text="Histogram before sorting:"
+                   FontSize="Medium"
+                   Margin="0,20,0,5" />
+            <Frame HeightRequest="200" BorderColor="LightGray">
+                <!-- Graphical histogram -->
+                <Label Text="Histogram before sorting" 
+                       VerticalOptions="CenterAndExpand" 
+                       HorizontalOptions="Center" />
+            </Frame>
+
+            <Label Text="Histogram after sorting:"
+                   FontSize="Medium"
+                   Margin="0,20,0,5" />
+            <Frame HeightRequest="200" BorderColor="LightGray">
+                <!-- Graphical histogram -->
+                <Label Text="Histogram after sorting" 
+                       VerticalOptions="CenterAndExpand" 
+                       HorizontalOptions="Center" />
+            </Frame>
+
+            <!-- Best sorting -->
+            <Label Text="The best sorting method: "
+                   FontSize="Medium"
+                   Margin="0,20,0,5" />
+            <Label x:Name="BestMethodLabel"
+                   Text="The best method: "
+                   FontAttributes="Bold"
+                   FontSize="Medium"
+                   TextColor="Green"
+                   Margin="0,0,0,20" />
+
+            <!-- Selecting a method for detailed information -->
+            <Label Text="Select a sort method for more information:"
+                   FontSize="Medium"
+                   Margin="0,0,0,10" />
+            <Picker x:Name="MethodPicker"
+                    Title="Select sorting method"
+                    SelectedIndexChanged="OnMethodPickerChanged">
+                <!-- Example of items to select -->
+                <Picker.Items>
+                    <x:String>Bubble sorting</x:String>
+                    <x:String>Quick sort</x:String>
+                    <x:String>Insertion sort</x:String>
+                </Picker.Items>
+            </Picker>
+
+            <!-- Information about the selected sorting method -->
+            <Label x:Name="MethodInfoLabel"
+                   Text="Information about the sorting method"
+                   FontSize="Medium"
+                   Margin="0,10,0,20" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+    <!-- Menu with instructions -->
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="About the developer" Clicked="OnInstructionsClicked" />
+    </ContentPage.ToolbarItems>
+
+</ContentPage>
