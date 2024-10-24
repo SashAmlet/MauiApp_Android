@@ -1,9 +1,12 @@
 ﻿namespace MauiApp1;
 using Services;
+using SkiaSharp;
+using SkiaSharp.Views.Maui;
 
 public partial class MainPage : ContentPage
 {
     private List<int> _originalArray = new List<int>();
+    private List<int> _sortedArray = new List<int>();
     private Dictionary<string, (List<int> sortedArray, int iterations)> _sortingResults = new Dictionary<string, (List<int>, int)>();
 
 
@@ -13,7 +16,7 @@ public partial class MainPage : ContentPage
         SQLitePCL.Batteries_V2.Init();
 
     }
-    #region in development
+
     // Event for array save button
     private async void OnSaveArrayClicked(object sender, EventArgs e)
     {
@@ -41,7 +44,7 @@ public partial class MainPage : ContentPage
 
         await DisplayAlert("Uploaded", "The array was loaded successfully.", "OK");
     }
-    #endregion
+
     
     // Event for array sort button
     private void OnSortArrayClicked(object sender, EventArgs e)
@@ -60,14 +63,49 @@ public partial class MainPage : ContentPage
         DisplayBestMethod();
     }
 
-    #region in development
+    private void OnOriginalArrayPaintSurface(object sender, SKPaintSurfaceEventArgs e)
+    {
+        DrawHistogram(e.Surface.Canvas, e.Info.Width, e.Info.Height, _originalArray);
+    }
+
+    private void OnSortedArrayPaintSurface(object sender, SKPaintSurfaceEventArgs e)
+    {
+        DrawHistogram(e.Surface.Canvas, e.Info.Width, e.Info.Height, _sortedArray);
+    }
+
+    private void DrawHistogram(SKCanvas canvas, int width, int height, List<int> array)
+    {
+        canvas.Clear(SKColors.White);
+
+        if (array == null || array.Count == 0) return;
+
+        // Drawing settings
+        var paint = new SKPaint
+        {
+            Style = SKPaintStyle.Fill,
+            Color = SKColors.Blue,
+            IsAntialias = true
+        };
+
+        // Finding the maximum value for normalizing column heights
+        int maxValue = array.Max();
+
+        // Calculating the width of one column
+        float barWidth = width / (float)array.Count;
+
+        // Drawing 
+        for (int i = 0; i < array.Count; i++)
+        {
+            float barHeight = (array[i] / (float)maxValue) * height;
+            canvas.DrawRect(i * barWidth, height - barHeight, barWidth - 5, barHeight, paint);
+        }
+    }
     // Method for updating histograms
     private void UpdateHistograms()
     {
-        // Здесь необходимо обновить графические компоненты гистограмм с данными
-        // Для простоты выводим текст
-        DisplayAlert("Гистограмма до", string.Join(", ", _originalArray), "OK");
-        DisplayAlert("Гистограмма после", string.Join(", ", _sortingResults["Быстрая сортировка"].sortedArray), "OK");
+
+        OriginalArrayCanvas.InvalidateSurface();
+        SortedArrayCanvas.InvalidateSurface();
     }
 
     // Method for choosing the best sorting method
@@ -87,7 +125,7 @@ public partial class MainPage : ContentPage
             MethodInfoLabel.Text = $"{selectedMethod}: {result.iterations} iterations";
         }
     }
-    #endregion
+
     
     // Method for performing sorting with all methods
     private void PerformSorting()
@@ -108,6 +146,8 @@ public partial class MainPage : ContentPage
 
         // Radix Sort
         _sortingResults["Radix"] = SortAlgorithms.RadixSort(_originalArray.ToArray());
+
+        _sortedArray = _sortingResults["Bubble"].sortedArray;
 
     }
 
@@ -133,9 +173,13 @@ public partial class MainPage : ContentPage
     // Method for displaying "about the developer"
     private async void OnInstructionsClicked(object sender, EventArgs e)
     {
-        await DisplayAlert("About the developer", "Something", "OK");
+        var developerInfoView = new DeveloperInfoView();
+        var contentPage = new ContentPage
+        {
+            Content = developerInfoView.Content
+        };
+
+        await Shell.Current.Navigation.PushModalAsync(contentPage);
     }
-
-
 }
 

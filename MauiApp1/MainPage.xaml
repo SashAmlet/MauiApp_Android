@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MauiApp1.MainPage"
+             xmlns:skia="clr-namespace:SkiaSharp.Views.Maui.Controls;assembly=SkiaSharp.Views.Maui.Controls"
              Title="Home">
 
     <ScrollView>
@@ -30,25 +31,21 @@
             </HorizontalStackLayout>
 
             <!-- Array visualization (before and after sorting) -->
-            <Label Text="Histogram before sorting:"
-                   FontSize="Medium"
-                   Margin="0,20,0,5" />
-            <Frame HeightRequest="200" BorderColor="LightGray">
-                <!-- Graphical histogram -->
-                <Label Text="Histogram before sorting" 
-                       VerticalOptions="CenterAndExpand" 
-                       HorizontalOptions="Center" />
-            </Frame>
+            <StackLayout Padding="20">
+                <Label Text="Histogram before sorting:"
+               FontSize="Medium"
+               Margin="0,20,0,5" />
+                <Frame HeightRequest="200" BorderColor="LightGray">
+                    <skia:SKCanvasView x:Name="OriginalArrayCanvas" PaintSurface="OnOriginalArrayPaintSurface" />
+                </Frame>
 
-            <Label Text="Histogram after sorting:"
-                   FontSize="Medium"
-                   Margin="0,20,0,5" />
-            <Frame HeightRequest="200" BorderColor="LightGray">
-                <!-- Graphical histogram -->
-                <Label Text="Histogram after sorting" 
-                       VerticalOptions="CenterAndExpand" 
-                       HorizontalOptions="Center" />
-            </Frame>
+                <Label Text="Histogram after sorting:"
+               FontSize="Medium"
+               Margin="0,20,0,5" />
+                <Frame HeightRequest="200" BorderColor="LightGray">
+                    <skia:SKCanvasView x:Name="SortedArrayCanvas" PaintSurface="OnSortedArrayPaintSurface" />
+                </Frame>
+            </StackLayout>
 
             <!-- Best sorting -->
             <Label Text="The best sorting method: "
@@ -70,9 +67,11 @@
                     SelectedIndexChanged="OnMethodPickerChanged">
                 <!-- Example of items to select -->
                 <Picker.Items>
-                    <x:String>Bubble sorting</x:String>
-                    <x:String>Quick sort</x:String>
-                    <x:String>Insertion sort</x:String>
+                    <x:String>Bubble</x:String>
+                    <x:String>Merge</x:String>
+                    <x:String>Heap</x:String>
+                    <x:String>Quick</x:String>
+                    <x:String>Radix</x:String>
                 </Picker.Items>
             </Picker>
 

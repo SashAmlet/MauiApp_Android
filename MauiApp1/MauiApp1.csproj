@@ -49,9 +49,20 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Remove="developer_image.jpg" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <PackageReference Include="Microsoft.Data.Sqlite" Version="6.0.35" />
 	  <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="6.0.35" />
+	  <PackageReference Include="SkiaSharp.Views.Maui.Controls" Version="2.88.8" />
 	  <PackageReference Include="SQLitePCLRaw.bundle_e_sqlite3" Version="2.1.10" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiXaml Update="DeveloperInfoView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	</ItemGroup>
 
 </Project>
