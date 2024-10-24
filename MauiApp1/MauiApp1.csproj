@@ -49,6 +49,15 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <AndroidResource Remove="Storage\**" />
+	  <Compile Remove="Storage\**" />
+	  <EmbeddedResource Remove="Storage\**" />
+	  <MauiCss Remove="Storage\**" />
+	  <MauiXaml Remove="Storage\**" />
+	  <None Remove="Storage\**" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <None Remove="developer_image.jpg" />
 	</ItemGroup>
 

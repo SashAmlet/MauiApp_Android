@@ -10,7 +10,7 @@
                FontAttributes="Bold"
                HorizontalOptions="Center" />
 
-        <Image Source="../../Storage/developer_image.jpg"
+        <Image Source="Images/developer_image.jpg"
                Aspect="AspectFit"
                HeightRequest="200"
                HorizontalOptions="Center" />
